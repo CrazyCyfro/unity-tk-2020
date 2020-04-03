@@ -587,6 +587,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameText: {fileID: 4900000, guid: cd7ab19770fe95b43bea98831a966100, type: 3}
   displayText: {fileID: 1692262766}
+  choiceButton: {fileID: 133544518641091835, guid: a2e0bffe83339ae43a2759a2fcefd864,
+    type: 3}
 --- !u!114 &1692262766
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,5 +1,7 @@
-It’s the same stone stairway again. You’re walking down the roughly hewn stone steps, the light patter of each step joining the faintly resounding echo of its brethren long-forgotten. A gentle rhythm that prods you along, and you go along with it.
+stone stairway|blue room>It’s the same stone stairway again. You’re walking down the roughly hewn stone steps, the light patter of each step joining the faintly resounding echo of its brethren long-forgotten. A gentle rhythm that prods you along, and you go along with it.
 *	Continue walking.
+death>*	DIE
+WEW>*	HEHE
 
 -   The ambient light slowly fades. You would continue just walking in the dark, but somehow you recall that you have a tinderbox in your bag.
 
@@ -14,3 +16,5 @@ It’s the same stone stairway again. You’re walking down the roughly hewn sto
 a
 
 b
+
+death|you died.
