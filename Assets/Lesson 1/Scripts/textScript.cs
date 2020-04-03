@@ -12,6 +12,8 @@ public class textScript : MonoBehaviour
 	public TextAsset gameText;
 	public Text displayText;
 	public Button choiceButton;
+	public Image emptyImage;
+	
 	private string story;
 	private List<string[]> storyList = new List<string[]>();//list of string arrays - each array is [title, next title it should find. text]
 	private int currentProgress = 0;
@@ -100,18 +102,30 @@ public class textScript : MonoBehaviour
     // Update is called once per frame
     void Update() {
         if (Input.GetKeyDown("space") && !awaitingChoice && !gameEnd) {
-			ProgressStory("");
+			ProgressStory(storyList[currentProgress][0]);
 		}
     }
 	
 	void ProgressStory(string titleToSearchFor)
 	{
+		//print(titleToSearchFor);
 		if (titleToSearchFor != "") {
 			for (int i=0; i<storyList.Count; i++) {
 				if (storyList[i][0] == titleToSearchFor) {
 					print(i.ToString());
 					currentProgress = i;
 				}
+			}
+			if (Resources.Load<Sprite>(titleToSearchFor) != null) {
+				Sprite sprite = Resources.Load<Sprite>(titleToSearchFor);
+				Image displayImage = Instantiate(emptyImage, displayText.GetComponentInParent<Canvas>().transform);
+				displayImage.sprite = sprite;
+				displayImage.preserveAspect = true;
+				//displayImage.minHeight = 400f;
+				//displayImage.preferredWidth=600;
+				/*displayImage.rectTransform.anchorMin = new Vector2(1,0);
+				displayImage.rectTransform.anchorMax = new Vector2(0,1);
+				displayImage.rectTransform.sizeDelta = displayImage.GetComponentInParent<Canvas>().*/
 			}
 		}
 		if (storyList[currentProgress][2].ToString()[0] == '*') {
@@ -160,7 +174,7 @@ public class textScript : MonoBehaviour
 	
 	void FindChoices(int choiceNumber) {
 		//creating and positioning button
-		Button choice = Instantiate(choiceButton, displayText.GetComponentInParent<Canvas>().transform);
+		Button choice = Instantiate(choiceButton, displayText.GetComponentInParent	<Canvas>().transform);
 		choice.GetComponentInChildren<Text>().text=storyList[currentProgress][2].ToString();
 		Vector2 buttonPosition = choice.GetComponent<RectTransform>().anchoredPosition;
 		buttonPosition.y -= choiceNumber*30;
