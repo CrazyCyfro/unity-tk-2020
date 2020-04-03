@@ -1,0 +1,16 @@
+It’s the same stone stairway again. You’re walking down the roughly hewn stone steps, the light patter of each step joining the faintly resounding echo of its brethren long-forgotten. A gentle rhythm that prods you along, and you go along with it.
+*	Continue walking.
+
+-   The ambient light slowly fades. You would continue just walking in the dark, but somehow you recall that you have a tinderbox in your bag.
+
+*	Light your torch.
+	You pull out your tinderbox, and light your torch. A low flame crackles into existence. The warm, mellow glow bathes the cold gray of the narrow stairway. You feel oddly comforted, but you’re not quite sure why. It’s not that the ambient light was insufficient to see yet, but -... the thought trails off as you continue walking.
+
+*	Save your fuel for later.
+	You decided it would be prudent to conserve your resources. After all, you don’t know if there’ll be more supply, and the pitch blackness in the distance does not look pleasant.
+
+-   Continue walking.
+
+a
+
+b
