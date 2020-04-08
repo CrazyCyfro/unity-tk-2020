@@ -91,8 +91,9 @@ public class textScript : MonoBehaviour
 		else if (currentProgress<(storyList.Count)) {
 			displayText.text = storyList[currentProgress][2];
 			currentProgress++;
-			if (currentProgress == storyList.Count) {
+			if (currentProgress == (storyList.Count-1)) {
 				gameEnd = true;
+				print("GAME ENDED");
 			}
 		}	
 	}
