@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.Animations;
 
 //System.Serializable]
 //public class stringEvent : UnityEvent<string> {}
@@ -12,7 +13,8 @@ public class textScript : MonoBehaviour
 	public TextAsset gameText;
 	public Text displayText;
 	public Button choiceButton;
-	public Image emptyImage;
+	public Image displayImage;
+	public GameObject buttonPanel;
 	
 	private string story;
 	private List<string[]> storyList = new List<string[]>();//list of string arrays - each array is [title, next title it should find. text]
@@ -20,8 +22,6 @@ public class textScript : MonoBehaviour
 	
 	private bool awaitingChoice = false;
 	private bool gameEnd = false;
-	
-//	public stringEvent buttonClick = new stringEvent();
 
     // Start is called before the first frame update
     void Start()
@@ -29,14 +29,6 @@ public class textScript : MonoBehaviour
 		story = gameText.ToString();
 		
 		//variables for compiler to go through text and arrange it into the storyList
-		/*
-		storyList.Add(new string[3]);
-		Object[] compiler = new Object[] {"",0,0};
-		
-		Compile(compiler);
-		*/
-		
-		
 		string tempStoryCompiler = "";
 		string tempStoryCompilerTitle = "";
 		string tempStoryCompilerAfter = "";
@@ -46,7 +38,6 @@ public class textScript : MonoBehaviour
 			if (story[i].ToString() == "\n" || story[i].ToString() == "\r") {
 				if (!System.String.IsNullOrEmpty(tempStoryCompiler)) {
 						storyList.Add(new string[]{tempStoryCompilerTitle, tempStoryCompilerAfter, tempStoryCompiler});//title of current text, text, and next title it should search for
-						//print("\""+tempStoryCompiler+"\"");
 						tempStoryCompiler = "";
 						tempStoryCompilerTitle = "";
 						tempStoryCompilerAfter = "";
@@ -64,40 +55,8 @@ public class textScript : MonoBehaviour
 				tempStoryCompiler += story[i].ToString();
 			}
 		}
-		//print(tempStoryCompiler);
 		storyList.Add(new string[]{tempStoryCompilerTitle, tempStoryCompilerAfter, tempStoryCompiler});//get the last line
-		
-		//buttonClick.AddListener(ChoiceOnClick);
     }
-	
-	/*Object[] Compile(Object[] compiler) {
-		string tempCompiler = compiler[0];
-		int index = compiler[1];
-		int currentLine = compiler[2];
-		if (story[index] == '|') {
-			storyList[currentLine][0] = tempCompiler;
-			tempCompiler = "";
-		}
-		else if (story[index] == '>') {
-			storyList[currentLine][1] = tempCompiler;
-			tempCompiler = "";
-		}
-		else if (story[index] == '\n' || story[index] == '\r') {
-			if (tempCompiler != "") {
-				storyList[currentLine][2] = tempCompiler;
-				currentLine++;
-				tempCompiler = "";
-				storyList.Add(new string[3]);
-			}
-		}
-		else {
-			tempCompiler += story[index].ToString();
-		}
-		index++;
-		if (index < story.Length) {
-			Compile();
-		}
-	}*/
 	
     // Update is called once per frame
     void Update() {
@@ -108,28 +67,23 @@ public class textScript : MonoBehaviour
 	
 	void ProgressStory(string titleToSearchFor)
 	{
-		//print(titleToSearchFor);
 		if (titleToSearchFor != "") {
 			for (int i=0; i<storyList.Count; i++) {
 				if (storyList[i][0] == titleToSearchFor) {
-					print(i.ToString());
 					currentProgress = i;
 				}
 			}
 			if (Resources.Load<Sprite>(titleToSearchFor) != null) {
 				Sprite sprite = Resources.Load<Sprite>(titleToSearchFor);
-				Image displayImage = Instantiate(emptyImage, displayText.GetComponentInParent<Canvas>().transform);
 				displayImage.sprite = sprite;
 				displayImage.preserveAspect = true;
-				//displayImage.minHeight = 400f;
-				//displayImage.preferredWidth=600;
-				/*displayImage.rectTransform.anchorMin = new Vector2(1,0);
-				displayImage.rectTransform.anchorMax = new Vector2(0,1);
-				displayImage.rectTransform.sizeDelta = displayImage.GetComponentInParent<Canvas>().*/
+				displayImage.color = Color.white;
+			}
+			else {
+				displayImage.color = Color.clear;
 			}
 		}
 		if (storyList[currentProgress][2].ToString()[0] == '*') {
-				//displayText.text = FindOptions(storyList[currentProgress][2].ToString() + "\n\r");
 				FindChoices(0);
 				currentProgress++;
 				awaitingChoice = true;
@@ -138,54 +92,27 @@ public class textScript : MonoBehaviour
 			displayText.text = storyList[currentProgress][2];
 			currentProgress++;
 			if (currentProgress == storyList.Count) {
-				print("GAME END");
 				gameEnd = true;
 			}
-		}
-		/*
-		if (titleToSearchFor == "") {
-			//print(storyList[currentProgress][1].ToString()[0]);
-			//print(storyList.Count.ToString());
-			//print(currentProgress.ToString());
-			if (storyList[currentProgress][2].ToString()[0] == '*') {
-				//displayText.text = FindOptions(storyList[currentProgress][2].ToString() + "\n\r");
-				FindChoices(0);
-				currentProgress++;
-				awaitingChoice = true;
-			}
-			else if (currentProgress<(storyList.Count)) {
-				displayText.text = storyList[currentProgress][2];
-				currentProgress++;
-				if (currentProgress == storyList.Count) {
-					print("GAME END");
-					gameEnd = true;
-				}
-			}
-		}
-		else {
-			for (int i=0; i<storyList.Count; i++) {
-				if (storyList[i][1] == titleToSearchFor) {
-					currentProgress = i;
-				}
-			}
-			displayText
-		}*/
+		}	
 	}
 	
 	void FindChoices(int choiceNumber) {
 		//creating and positioning button
-		Button choice = Instantiate(choiceButton, displayText.GetComponentInParent	<Canvas>().transform);
-		choice.GetComponentInChildren<Text>().text=storyList[currentProgress][2].ToString();
-		Vector2 buttonPosition = choice.GetComponent<RectTransform>().anchoredPosition;
-		buttonPosition.y -= choiceNumber*30;
-		choice.GetComponent<RectTransform>().anchoredPosition = buttonPosition;
+		Button choice = Instantiate(choiceButton, buttonPanel.transform); //creates the button, makes the buttonPanel the parent
+		choice.GetComponentInChildren<Text>().text=storyList[currentProgress][2].ToString(); //sets the text in the button
+		
+		RectTransform buttonRectTransform = choice.GetComponent<RectTransform>();
+		buttonRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, buttonPanel.GetComponent<RectTransform>().rect.height/3);
+		
+		//choice.GetComponent<RectTransform>().rect.height
+		Vector2 buttonPosition = choice.GetComponent<RectTransform>().anchoredPosition; 
+		buttonPosition.y -= (choiceNumber+0.5f)*choice.GetComponent<RectTransform>().rect.height;
+		choice.GetComponent<RectTransform>().anchoredPosition = buttonPosition; //adjusts the buttons y-position based on the number of buttons created so far
 		
 		//adding listener to button
-		print("DELEGATING: " + storyList[currentProgress][1].ToString());
 		string temp = storyList[currentProgress][1].ToString();
 		choice.onClick.AddListener(delegate {ChoiceOnClick(temp);});
-		//choice.onClick.AddListener(() => ChoiceOnClick(storyList[currentProgress][1].ToString()));
-		//choice.onClick.AddListener(SomethingThatInvokesTheEvent);
 		string nextLine = storyList[currentProgress+1][2].ToString();
 		if (nextLine[0] == '*') {
 			currentProgress++;
@@ -196,38 +123,14 @@ public class textScript : MonoBehaviour
 		}
 	}
 	
-	/*void SomethingThatInvokesTheEvent(){
-		print("ER: " + storyList[currentProgress][1].ToString());
-		buttonClick.Invoke(storyList[currentProgress][1].ToString());
-	}*/
-	
 	void ChoiceOnClick(string titleToSearchFor) {
-		print(titleToSearchFor);
 		GameObject[] buttonArray = GameObject.FindGameObjectsWithTag("choiceButton");
 		for (int i=0; i<buttonArray.Length; i++) {
 			Destroy(buttonArray[i]);
 		}
 		awaitingChoice = false;
 		ProgressStory(titleToSearchFor);
-	}
-	
-	
-	/*
-	string FindOptions(string toDisplay) {
-		Button choice = Instantiate(choiceButton, displayText.GetComponentInParent<Canvas>().transform);
-		choice.GetComponentInChildren<Text>().text=storyList[currentProgress][2].ToString();
-		string nextLine = storyList[currentProgress+1][2].ToString();
-		if (nextLine[0] == '*') {
-			toDisplay += (nextLine + "\n\r");
-			currentProgress++;
-			return FindOptions(toDisplay);
-		}
-		else {
-			return toDisplay;
-		}
-	}*/
-	
-	
+	}	
 }
 
 
