@@ -8,29 +8,30 @@ public class ZombieScript : MonoBehaviour
     public NavMeshAgent navMeshAgent;
     public PlayerData playerData;
     public ZombieData zombieData;
+    public Rigidbody rb;
+    public Collider col;
 
     // Attack speed implementation
     private float t = 0;
-    private float period;
+    private float attackInterval;
     
     void Start()
     {
         SetupNavMeshAgent();
         
-        period = 1/zombieData.attackSpd;
+        attackInterval = 1/zombieData.attackSpd;
     }
 
     // Update is called once per frame
     void Update()
     {
-        navMeshAgent.SetDestination(playerData.playerPos);
+        if (navMeshAgent.enabled == true)
+            navMeshAgent.SetDestination(playerData.playerPos);
     }
 
     bool CanAttack()
     {
-        float cooldown = Time.time - t;
-
-        if (cooldown > period) {
+        if (Time.time - t > attackInterval) {
             t = Time.time;
             return true;
         } else {
@@ -38,9 +39,15 @@ public class ZombieScript : MonoBehaviour
         }
     }
 
-    public void TakeDamage()
+    public void TakeDamage(Vector3 force, Vector3 point)
     {
-        Destroy(gameObject);
+        navMeshAgent.enabled = false;
+        
+        col.isTrigger = false;
+        rb.isKinematic = false;
+        rb.AddForceAtPosition(force, point);
+
+        Destroy(gameObject, zombieData.destroyDelay);
     }
 
     void SetupNavMeshAgent()
@@ -51,7 +58,7 @@ public class ZombieScript : MonoBehaviour
     void OnTriggerEnter(Collider collider)
     {
         if (collider.gameObject.tag == "Player") {
-            navMeshAgent.speed = 0;
+            navMeshAgent.isStopped = true;
             navMeshAgent.velocity = Vector3.zero;
         }
     }
@@ -59,7 +66,7 @@ public class ZombieScript : MonoBehaviour
     void OnTriggerExit(Collider collider)
     {
         if (collider.gameObject.tag == "Player") {
-            navMeshAgent.speed = zombieData.speed;
+            navMeshAgent.isStopped = false;
         }
     }
 
@@ -70,11 +77,6 @@ public class ZombieScript : MonoBehaviour
         if (collider.gameObject.tag == "Player") {
             
             FpsPlayerScript player = collider.gameObject.GetComponent<FpsPlayerScript>();
-            
-            if (player == null) {
-                Debug.Log("FpsPlayerScript not found!");
-                return;
-            }
 
             player.TakeDamage(zombieData.damage);
         }

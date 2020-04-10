@@ -8,26 +8,33 @@ public class FpsPlayerScript : MonoBehaviour
     public PlayerData playerData;
 
 
-    // Look sensitivity
+    [Header("Look sensitivity")]
     public float sens;
     
-    // Movement speed multiplier
+    [Header("Move speed multiplier")]
     public float moveSpeed;
 
-    // Gravity implementation
+    [Header("Firing settings")]
+    public float fireRate;
+    public float bulletForceMultiplier;
+    private float t = 0;
+    private float fireInterval;
+
+    [Header("Gravity settings")]
     public Transform groundChecker;
     private Vector3 gravVector;
     public float dist2Ground;
     public LayerMask groundMask;
     public float GRAVITY = -9.81f;
     
-    // Camera
+    [Header("Camera settings")]
     public Camera playerCamera;
     private float camVertAngle = 0;
 
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        fireInterval = 1/fireRate;
     }
 
     void Update()
@@ -35,7 +42,9 @@ public class FpsPlayerScript : MonoBehaviour
         UpdateCameraRotation();
         UpdateCursorState();
 
-        if (Input.GetMouseButtonDown(0)) Shoot();
+        if (Input.GetButtonDown("Fire1") && CanShoot()) {
+            Shoot();
+        }
         
         controller.Move(UpdatePlayerMove() + UpdateGravVelocity() * Time.deltaTime);
 
@@ -46,6 +55,16 @@ public class FpsPlayerScript : MonoBehaviour
     {
         Debug.Log("ouch!");
     }
+    
+    bool CanShoot()
+    {
+        if (Time.time - t > fireInterval) {
+            t = Time.time;
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     void Shoot()
     {
@@ -55,8 +74,8 @@ public class FpsPlayerScript : MonoBehaviour
         if (hit.collider.gameObject.tag != "Zombie") return;
 
         ZombieScript zombie = hit.collider.gameObject.GetComponent<ZombieScript>();
-
-        zombie.TakeDamage();
+        
+        zombie.TakeDamage(-hit.normal * bulletForceMultiplier, hit.point);
     }
 
     void UpdatePlayerTransform()

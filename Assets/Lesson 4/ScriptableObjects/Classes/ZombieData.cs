@@ -12,4 +12,6 @@ public class ZombieData : ScriptableObject
     public int damage;
 
     public float attackSpd;
+
+    public float destroyDelay;
 }
