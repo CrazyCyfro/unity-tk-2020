@@ -4,25 +4,25 @@ using UnityEngine;
 
 public class FpsPlayerScript : MonoBehaviour
 {
-
     public CharacterController controller;
+    public PlayerData playerData;
 
-    public Transform groundChecker;
 
     // Look sensitivity
     public float sens;
+    
     // Movement speed multiplier
     public float moveSpeed;
 
+    // Gravity implementation
+    public Transform groundChecker;
     private Vector3 gravVector;
-
     public float dist2Ground;
-
     public LayerMask groundMask;
-
     public float GRAVITY = -9.81f;
+    
+    // Camera
     public Camera playerCamera;
-
     private float camVertAngle = 0;
 
     void Start()
@@ -34,8 +34,34 @@ public class FpsPlayerScript : MonoBehaviour
     {
         UpdateCameraRotation();
         UpdateCursorState();
+
+        if (Input.GetMouseButtonDown(0)) Shoot();
         
         controller.Move(UpdatePlayerMove() + UpdateGravVelocity() * Time.deltaTime);
+
+        UpdatePlayerTransform();
+    }
+
+    public void TakeDamage(int dmg)
+    {
+        Debug.Log("ouch!");
+    }
+
+    void Shoot()
+    {
+        RaycastHit hit;
+        if (!Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, Mathf.Infinity)) return;
+
+        if (hit.collider.gameObject.tag != "Zombie") return;
+
+        ZombieScript zombie = hit.collider.gameObject.GetComponent<ZombieScript>();
+
+        zombie.TakeDamage();
+    }
+
+    void UpdatePlayerTransform()
+    {
+        playerData.playerPos = transform.position;
     }
 
     Vector3 UpdateGravVelocity()

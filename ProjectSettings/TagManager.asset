@@ -6,6 +6,7 @@ TagManager:
   tags:
   - choiceButton
   - buttonPanel
+  - Zombie
   layers:
   - Default
   - TransparentFX
