@@ -24,13 +24,6 @@ public class SpawnManagerScript : MonoBehaviour
                 if (Vector3.Distance(spawner.position, playerData.playerPos) < minDistance) continue;
 
                 int randomIndex = Random.Range(0, zombiePrefabs.Count);
-
-                Vector3 spawnPos = Vector3.zero;
-
-                // NavMeshHit hit;
-                // if (NavMesh.SamplePosition(spawner.position, out hit, 5, NavMesh.AllAreas)) {
-                //     spawnPos = hit.position;
-                // }
                 
                 GameObject zombie = Instantiate(zombiePrefabs[randomIndex], spawner.position, Quaternion.identity);
                 
