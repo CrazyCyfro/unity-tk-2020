@@ -6,6 +6,8 @@ public class FpsPlayerScript : MonoBehaviour
 {
     public CharacterController controller;
     public PlayerData playerData;
+    public AudioSource gunAudio;
+    public AudioSource musicAudio;
 
 
     [Header("Look sensitivity")]
@@ -14,11 +16,18 @@ public class FpsPlayerScript : MonoBehaviour
     [Header("Move speed multiplier")]
     public float moveSpeed;
 
+    [Header("Health settings")]
+    public int health;
+
     [Header("Firing settings")]
     public float fireRate;
     public float bulletForceMultiplier;
+    public int bulletDamage;
     private float t = 0;
     private float fireInterval;
+
+    [Header("Bullet impact settings")]
+    public GameObject bulletImpactPrefab;
 
     [Header("Gravity settings")]
     public Transform groundChecker;
@@ -47,13 +56,18 @@ public class FpsPlayerScript : MonoBehaviour
         }
         
         controller.Move(UpdatePlayerMove() + UpdateGravVelocity() * Time.deltaTime);
-
         UpdatePlayerTransform();
     }
 
     public void TakeDamage(int dmg)
     {
-        Debug.Log("ouch!");
+        health -= dmg;
+
+        Debug.Log("Health: " + health);
+        
+        if (health > 0) return;
+
+        Debug.Log("You lose!");
     }
     
     bool CanShoot()
@@ -68,14 +82,18 @@ public class FpsPlayerScript : MonoBehaviour
 
     void Shoot()
     {
+        gunAudio.Play();
+
         RaycastHit hit;
         if (!Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, Mathf.Infinity)) return;
+
+        GameObject particles = Instantiate(bulletImpactPrefab, hit.point, Quaternion.LookRotation(hit.normal));
+        Destroy(particles, particles.GetComponent<ParticleSystem>().main.duration);
 
         if (hit.collider.gameObject.tag != "Zombie") return;
 
         ZombieScript zombie = hit.collider.gameObject.GetComponent<ZombieScript>();
-        
-        zombie.TakeDamage(-hit.normal * bulletForceMultiplier, hit.point);
+        zombie.TakeDamage(bulletDamage, -hit.normal * bulletForceMultiplier, hit.point);
     }
 
     void UpdatePlayerTransform()

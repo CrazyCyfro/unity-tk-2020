@@ -11,6 +11,12 @@ public class ZombieScript : MonoBehaviour
     public Rigidbody rb;
     public Collider col;
 
+    public AudioSource zombieAudio;
+    
+    // Idle noise implementation
+    private float noiseT = 0;
+    private int health;
+
     // Attack speed implementation
     private float t = 0;
     private float attackInterval;
@@ -18,8 +24,12 @@ public class ZombieScript : MonoBehaviour
     void Start()
     {
         SetupNavMeshAgent();
+
+        health = zombieData.health;
         
         attackInterval = 1/zombieData.attackSpd;
+
+        StartCoroutine(MakeNoise());
     }
 
     // Update is called once per frame
@@ -39,12 +49,28 @@ public class ZombieScript : MonoBehaviour
         }
     }
 
-    public void TakeDamage(Vector3 force, Vector3 point)
+    IEnumerator MakeNoise() {
+        while (health > 0) {
+            yield return new WaitForSeconds(Random.Range(0.0f, 2.0f));
+
+            zombieAudio.PlayOneShot(zombieData.idleClip);
+
+            yield return new WaitForSeconds(zombieData.idleInterval + Random.Range(0.0f, 2.0f));
+        }
+    }
+
+    public void TakeDamage(int dmg, Vector3 force, Vector3 point)
     {
+        zombieAudio.Stop();
+        zombieAudio.PlayOneShot(zombieData.hurtClip);
+
+        health -= dmg;
+        if (health > 0) return;
+
         navMeshAgent.enabled = false;
-        
         col.isTrigger = false;
         rb.isKinematic = false;
+        
         rb.AddForceAtPosition(force, point);
 
         Destroy(gameObject, zombieData.destroyDelay);
@@ -57,7 +83,7 @@ public class ZombieScript : MonoBehaviour
 
     void OnTriggerEnter(Collider collider)
     {
-        if (collider.gameObject.tag == "Player") {
+        if (collider.gameObject.tag == "Player" && navMeshAgent.enabled == true) {
             navMeshAgent.isStopped = true;
             navMeshAgent.velocity = Vector3.zero;
         }
@@ -65,7 +91,7 @@ public class ZombieScript : MonoBehaviour
 
     void OnTriggerExit(Collider collider)
     {
-        if (collider.gameObject.tag == "Player") {
+        if (collider.gameObject.tag == "Player" && navMeshAgent.enabled == true) {
             navMeshAgent.isStopped = false;
         }
     }
@@ -74,9 +100,11 @@ public class ZombieScript : MonoBehaviour
     {
         if (!CanAttack()) return;
         
-        if (collider.gameObject.tag == "Player") {
+        if (collider.gameObject.tag == "Player" && navMeshAgent.enabled == true) {
             
             FpsPlayerScript player = collider.gameObject.GetComponent<FpsPlayerScript>();
+
+            zombieAudio.PlayOneShot(zombieData.attackClip);
 
             player.TakeDamage(zombieData.damage);
         }

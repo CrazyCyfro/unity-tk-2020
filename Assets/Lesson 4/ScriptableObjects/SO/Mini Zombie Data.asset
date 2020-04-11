@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 669aa459036f4444da8dd4e3fa6d14d3, type: 3}
-  m_Name: Regular Zombie Data
+  m_Name: Mini Zombie Data
   m_EditorClassIdentifier: 
-  speed: 4
-  health: 3
+  speed: 4.5
+  health: 2
   damage: 1
   attackSpd: 2
   destroyDelay: 3
-  hurtClip: {fileID: 8300000, guid: 0547b940dba4d964e9e447af1dc0759a, type: 3}
-  attackClip: {fileID: 8300000, guid: 5ce6bb262e363834db2b5cdef8a21155, type: 3}
-  idleClip: {fileID: 8300000, guid: 27b98a8c68f991b408c5c6afff25358c, type: 3}
-  idleInterval: 5
+  hurtClip: {fileID: 8300000, guid: fc1882cb9cb0d474c95537bbdb4c48bd, type: 3}
+  attackClip: {fileID: 8300000, guid: 83041cb4dc7766b48a4342db7511819d, type: 3}
+  idleClip: {fileID: 8300000, guid: 1fb023a333ca93a40a9c968a37e6f739, type: 3}
+  idleInterval: 7
