@@ -8,13 +8,16 @@ public class LauncherScript : MonoBehaviour
 	public GameObject birdPrefab;
 	public GameObject camera;
 	public GameObject firepowerTracker;
+	public GameObject birdsCreatedTracker;
 	
 	public float firingSensitivity;
 	public float maxTimeToHoldFire;
 	public float fireInterval;
+	public int maxBirdsToCreate;
 	
 	private float initialTime = 0;
 	private float fireTiming = -1;
+	private int birdsCreated = 0;
 	private Animator firepowerTrackerAnimator;
 	
     // Start is called before the first frame update
@@ -22,6 +25,7 @@ public class LauncherScript : MonoBehaviour
     {
         firepowerTrackerAnimator = firepowerTracker.GetComponent<Animator>();
 		firepowerTrackerAnimator.speed = (1/maxTimeToHoldFire);
+		birdsCreatedTracker.GetComponent<TextMeshProUGUI>().text = "Birds remaining: " + (maxBirdsToCreate - birdsCreated).ToString() + "/" + maxBirdsToCreate.ToString();
     }
 
     // Update is called once per frame
@@ -52,6 +56,9 @@ public class LauncherScript : MonoBehaviour
 				firepowerTrackerAnimator.SetBool("isFiring", false);
 				firepowerTrackerAnimator.Play("Empty");
 				
+				birdsCreated++;
+				birdsCreatedTracker.GetComponent<TextMeshProUGUI>().text = "Birds remaining: " + (maxBirdsToCreate - birdsCreated).ToString() + "/" + maxBirdsToCreate.ToString();
+				
 				Rigidbody birdRigidBody = birdGameObject.GetComponent<Rigidbody>();
 				birdRigidBody.AddForce(firingVector * firingForceMultiplier, ForceMode.Impulse);
 			}
@@ -59,7 +66,7 @@ public class LauncherScript : MonoBehaviour
     }
 	
 	bool canFire() {
-		if ((Time.time - fireTiming) > fireInterval) {
+		if (((Time.time - fireTiming) > fireInterval) && (birdsCreated < maxBirdsToCreate)) {
 			return true;
 		}
 		else {

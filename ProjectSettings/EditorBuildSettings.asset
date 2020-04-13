@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Lesson 3/Scenes/StartMenuScene.unity
+    guid: 0b452e6059eb32143999d896b8a28ee5
+  - enabled: 1
+    path: Assets/Lesson 3/Scenes/AngryBirdsScene.unity
+    guid: fab4142553b5de242b64fc6e56b7819b
   m_configObjects: {}
