@@ -9,10 +9,11 @@ public class ZombieData : ScriptableObject
 {
     [Header("Main data")]
     public float speed;
-    public int health;
+    public int initHealth;
     public int damage;
     public float attackSpd;
     public float destroyDelay;
+    public float updateInterval;
 
     [Header("Sound data")]
     public AudioClip hurtClip;

@@ -6,5 +6,6 @@ using UnityEngine;
 
 public class PlayerData : ScriptableObject
 {
+    public int initHealth;
     public Vector3 playerPos;
 }
