@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class FpsWeapon : MonoBehaviour
 {
-    public virtual void GameObjectReference(GameObject obj){}
+    public virtual void Setup(GameObject obj){}
     public abstract bool CanFire();
     public abstract void Fire();
     public GameObject weaponPrefab;

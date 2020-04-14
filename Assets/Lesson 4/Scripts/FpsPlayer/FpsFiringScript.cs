@@ -18,7 +18,7 @@ public class FpsFiringScript : MonoBehaviour
         weaponHudTrans.transform.localPosition = currentWeapon.weaponHudLoc;
         currentWeaponModel = Instantiate(currentWeapon.weaponPrefab, weaponHudTrans.position, 
         currentWeapon.weaponHudRot.rotation, canvasTrans);
-        currentWeapon.GameObjectReference(currentWeaponModel);
+        currentWeapon.Setup(currentWeaponModel);
     }
     void Update()
     {
@@ -41,6 +41,6 @@ public class FpsFiringScript : MonoBehaviour
         weaponHudTrans.transform.localPosition = currentWeapon.weaponHudLoc;
         currentWeaponModel = Instantiate(currentWeapon.weaponPrefab, weaponHudTrans.position, 
         currentWeapon.weaponHudRot.rotation, canvasTrans);
-        currentWeapon.GameObjectReference(currentWeaponModel);
+        currentWeapon.Setup(currentWeaponModel);
     }
 }

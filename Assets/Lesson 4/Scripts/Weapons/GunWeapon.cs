@@ -64,10 +64,12 @@ public class GunWeapon : FpsWeapon
         }
     }
 
-    public override void GameObjectReference(GameObject obj)
+    public override void Setup(GameObject obj)
     {
         weaponObject = obj;
 
         barrelLocation = weaponObject.transform.Find("BarrelLocation");
+        muzzleFlashSystem = Instantiate(muzzleFlashPrefab, barrelLocation.position, barrelLocation.rotation, weaponObject.transform)
+        .GetComponent<ParticleSystem>();
     }
 }
