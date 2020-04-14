@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 669aa459036f4444da8dd4e3fa6d14d3, type: 3}
+  m_Name: Crawler Zombie Data
+  m_EditorClassIdentifier: 
+  speed: 5
+  health: 1
+  damage: 1
+  attackSpd: 2
+  destroyDelay: 3
+  hurtClip: {fileID: 8300000, guid: 5cd921b91deac4f47b05c451951f7a53, type: 3}
+  attackClip: {fileID: 8300000, guid: 1225b0f997026d64fa600c3fd93f1a74, type: 3}
+  idleClip: {fileID: 8300000, guid: e66b136e063cc4049b96679b13228187, type: 3}
+  idleInterval: 4

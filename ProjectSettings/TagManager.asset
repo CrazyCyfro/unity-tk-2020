@@ -6,6 +6,7 @@ TagManager:
   tags:
   - choiceButton
   - buttonPanel
+  - Zombie
   - wood
   - bird
   - steel
@@ -18,7 +19,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Ground
   - 
   - 
   - 
