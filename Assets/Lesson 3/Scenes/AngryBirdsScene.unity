@@ -992,10 +992,10 @@ MonoBehaviour:
   camera: {fileID: 1278391863}
   firepowerTracker: {fileID: 121320031}
   birdsCreatedTracker: {fileID: 1813957013}
-  firingSensitivity: 2
-  maxTimeToHoldFire: 5
+  firingSensitivity: 3
+  maxTimeToHoldFire: 4
   fireInterval: 1
-  maxBirdsToCreate: 4
+  maxBirdsToCreate: 100
 --- !u!1 &1278391863
 GameObject:
   m_ObjectHideFlags: 0

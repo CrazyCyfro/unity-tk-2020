@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class LauncherScript : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class LauncherScript : MonoBehaviour
 	private float initialTime = 0;
 	private float fireTiming = -1;
 	private int birdsCreated = 0;
+	private bool isFiring = false;
 	private Animator firepowerTrackerAnimator;
 	
     // Start is called before the first frame update
@@ -36,13 +38,16 @@ public class LauncherScript : MonoBehaviour
 				//get vector of mouse position
 				initialTime = Time.time;
 				firepowerTrackerAnimator.SetBool("isFiring", true);
+				isFiring = true; //so that it doesnt skip the getmousebuttondown step
 			}
-			else if (Input.GetMouseButtonUp(0) == true) {
+			else if (Input.GetMouseButtonUp(0) == true && isFiring) {
 				//create and fire a bird
 				GameObject birdGameObject = Instantiate(birdPrefab, transform.position, transform.rotation);
 				birdGameObject.transform.position += transform.forward * 3f;
 				
 				float firingForceMultiplier;
+				print("Current Time: " + Time.time.ToString());
+				print("Init: " + initialTime.ToString());
 				if (Time.time-initialTime > maxTimeToHoldFire) {
 					firingForceMultiplier = maxTimeToHoldFire * firingSensitivity;
 				}
@@ -61,7 +66,16 @@ public class LauncherScript : MonoBehaviour
 				
 				Rigidbody birdRigidBody = birdGameObject.GetComponent<Rigidbody>();
 				birdRigidBody.AddForce(firingVector * firingForceMultiplier, ForceMode.Impulse);
+				
+				if (birdsCreated == maxBirdsToCreate) {
+					EndGame();
+				}
+				
+				isFiring = false;
 			}
+		}
+		if (GameObject.FindGameObjectsWithTag("wood").Length == 0 && GameObject.FindGameObjectsWithTag("steel").Length == 0) {
+			EndGame();
 		}
     }
 	
@@ -72,5 +86,9 @@ public class LauncherScript : MonoBehaviour
 		else {
 			return false;
 		}
+	}
+	
+	void EndGame() {
+		SceneManager.LoadScene("EndGameScene");
 	}
 }

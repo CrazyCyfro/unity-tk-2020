@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Lesson 3/Scenes/AngryBirdsScene.unity
     guid: fab4142553b5de242b64fc6e56b7819b
+  - enabled: 1
+    path: Assets/Lesson 3/Scenes/EndGameScene.unity
+    guid: 8071bf12f48437f48903d45f38d7d5e1
   m_configObjects: {}

@@ -23,16 +23,23 @@ public class ObjectScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (transform.position.y<-10) {//so object is destroyed after falling off the platform
+			Destroy(gameObject);
+		}
     }
 	
 	public void Hit() {
 		currentHits++;
-		print(((float)currentHits/(float)hitsToDestroy*0.1f).ToString());
+		//print(((float)currentHits/(float)hitsToDestroy*0.1f).ToString());
 		gameObject. GetComponent<Renderer>().material.color = new Color((float)currentHits/(float)hitsToDestroy,0,0);
 		if (currentHits == hitsToDestroy) {
+			if (gameObject.tag == "wood") {
+				gameData.score += 1;
+			}
+			else if (gameObject.tag ==  "steel") {
+				gameData.score += 2;
+			}
 			Destroy(gameObject);
-			gameData.score++;
 		}
 	}
 }
