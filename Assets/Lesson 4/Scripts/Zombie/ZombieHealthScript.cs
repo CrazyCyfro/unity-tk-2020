@@ -8,7 +8,6 @@ public class ZombieHealthScript : MonoBehaviour
     public ZombieData zombieData;
     public ZombieAudioScript zombieAudio;
     public NavMeshAgent navMeshAgent;
-
     public Rigidbody rb;
     public Collider col;
     private int health;
@@ -34,7 +33,7 @@ public class ZombieHealthScript : MonoBehaviour
         yield break;
     }
 
-    public void TakeBulletDamage(int dmg, Vector3 force, Vector3 point)
+    public void TakeDamage(int dmg)
     {
         zombieAudio.PlayHurtClip();
 
@@ -45,11 +44,24 @@ public class ZombieHealthScript : MonoBehaviour
         navMeshAgent.enabled = false;
         col.isTrigger = false;
         rb.isKinematic = false;
-        
-        // Impart force from bullet
-        rb.AddForceAtPosition(force, point);
 
         // Destroy zombie after delay
         Destroy(gameObject, zombieData.destroyDelay);
+    }
+
+    public void TakeBulletForce(Vector3 force, Vector3 point)
+    {
+        if (navMeshAgent.enabled) return;
+
+        // Impart force from bullet
+        rb.AddForceAtPosition(force, point);
+    }
+
+    public void TakeExplosiveForce(float force, Vector3 centre, float radius, float up)
+    {
+        if (navMeshAgent.enabled) return;
+
+        // Impart force from explosion
+        rb.AddExplosionForce(force, centre, radius, up);
     }
 }
