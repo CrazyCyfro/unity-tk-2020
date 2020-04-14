@@ -14,4 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Lesson 3/Scenes/EndGameScene.unity
     guid: 8071bf12f48437f48903d45f38d7d5e1
+  - enabled: 1
+    path: Assets/Lesson 4/Scenes/MainMenuScene.unity
+    guid: 10b977ccb7689f34b978c89fd419fbcd
+  - enabled: 1
+    path: Assets/Lesson 4/Scenes/TestScene.unity
+    guid: d5fc222d3694eb4478f096f9b06cf1b0
   m_configObjects: {}
