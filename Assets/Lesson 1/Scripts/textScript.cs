@@ -19,10 +19,9 @@ public class textScript : MonoBehaviour
 	//private string story;
 	//private List<string[]> storyList = new List<string[]>();//list of string arrays - each array is [title, next title it should find. text]
 	
-	private StoryCompiler storyCompiler = new StoryCompiler();
+	private StoryCompiler storyCompiler = new StoryCompiler(); //custom created StoryCompiler class
 	
 	private bool awaitingChoice = false;
-	private bool gameEnd = false;
 
     // Start is called before the first frame update
     void Start()
@@ -32,9 +31,9 @@ public class textScript : MonoBehaviour
 	
     // Update is called once per frame
     void Update() {
-        if (Input.GetKeyDown("space") && !awaitingChoice && !gameEnd) {
+        if (Input.GetKeyDown("space") && !awaitingChoice && !storyCompiler.gameEnded()) {
 			displayText.text = storyCompiler.ProgressStory("");//ProgressStory(storyCompiler.GetStoryList()[currentProgress][0]);
-			if (Resources.Load<Sprite>(storyCompiler.getImageTitle()) != null) {
+			if (Resources.Load<Sprite>(storyCompiler.getImageTitle()) != null) {//load the image at the top of the screen corresponding to the title
 				Sprite sprite = Resources.Load<Sprite>(storyCompiler.getImageTitle());
 				displayImage.sprite = sprite;
 				displayImage.preserveAspect = true;
@@ -43,7 +42,7 @@ public class textScript : MonoBehaviour
 			else {
 				displayImage.color = Color.clear;
 			}
-			if (storyCompiler.getButtonTitles().Count != 0) {
+			if (storyCompiler.getButtonTitles().Count != 0) {//create buttons based on choices player can make
 				print("FOUND BUTTONS");
 				createChoiceButtons(storyCompiler.getButtonTitles());
 				awaitingChoice = true;
@@ -61,7 +60,7 @@ public class textScript : MonoBehaviour
 			choice.GetComponentInChildren<Text>().text=buttonTitle; //sets the text in the button
 			
 			RectTransform buttonRectTransform = choice.GetComponent<RectTransform>();
-			buttonRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, buttonPanel.GetComponent<RectTransform>().rect.height/3);
+			buttonRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, buttonPanel.GetComponent<RectTransform>().rect.height/3);//set the height of the button, 1/3 of the panel height
 			
 			Vector2 buttonPosition = choice.GetComponent<RectTransform>().anchoredPosition; 
 			buttonPosition.y -= (buttonTitles.FindIndex(x => x.StartsWith(buttonTitle))+0.5f)*choice.GetComponent<RectTransform>().rect.height;
@@ -73,7 +72,7 @@ public class textScript : MonoBehaviour
 		}
 	}
 	
-	void ChoiceOnClick(string titleToSearchFor) {
+	void ChoiceOnClick(string titleToSearchFor) {//when button is clicked, destroy all buttons, progress story based on choice
 		GameObject[] buttonArray = GameObject.FindGameObjectsWithTag("choiceButton");
 		for (int i=0; i<buttonArray.Length; i++) {
 			Destroy(buttonArray[i]);

@@ -111,6 +111,6 @@ MonoBehaviour:
     type: 3}
   planeMeshRenderer: {fileID: 2271695361176123390}
   planeMeshFilter: {fileID: 2271695361176123385}
-  ballSpawnInterval: 0
+  ballSpawnInterval: 1
   forceMultiplier: 10
   ballLifespan: 10

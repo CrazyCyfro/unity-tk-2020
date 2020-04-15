@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//this class processes the raw text file and outputs the various elements of the text as needed
 public class StoryCompiler
 {
 	private string story;
@@ -48,7 +50,7 @@ public class StoryCompiler
 		storyList.Add(new string[]{tempStoryCompilerTitle, tempStoryCompilerAfter, tempStoryCompiler});//get the last line
 	}
 	
-	public string ProgressStory(string titleToSearchFor) //returns the string of text to display, titleToSearchFor will have a value if triggered by a button
+	public string ProgressStory(string titleToSearchFor) //returns the string of text to display on screen, titleToSearchFor will have a value if triggered by a button
 	{
 		if (titleToSearchFor != "") {
 			for (int i=0; i<storyList.Count; i++) {
@@ -57,9 +59,9 @@ public class StoryCompiler
 				}
 			}
 		}
-		if (storyList[currentProgress][2].ToString()[0] == '*') {
+		if (storyList[currentProgress][2].ToString()[0] == '*') {//* denotes an option, should create buttons for each option
 			int temp = currentProgress; //saves currentprogress because findchoices iterates through the storylist, so the text field remains the same with the buttons underneath
-			FindChoices();
+			FindChoices();//recursive function that goes through next lines that have * in them as well
 			imageTitle = storyList[temp-1][0];//-1 because should show the previous string before the button texts
 			return storyList[temp-1][2];
 		}
@@ -102,7 +104,7 @@ public class StoryCompiler
 		buttonTitles = new List<string>();
 	}
 	
-	public string getAfterFromText(string text) {
+	public string getAfterFromText(string text) {//given the text on the button, find the next title it points to
 		foreach (string[] storyPoint in storyList) {
 			if (text == storyPoint[2]) {
 				return storyPoint[1];
