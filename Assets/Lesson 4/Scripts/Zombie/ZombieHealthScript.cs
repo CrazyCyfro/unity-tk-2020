@@ -24,9 +24,9 @@ public class ZombieHealthScript : MonoBehaviour
 
         // Play idle clip while zombie is alive
         while (health > 0) {
-
-            zombieAudio.PlayIdleClip();
             yield return new WaitForSeconds(zombieData.idleInterval);
+            if (Random.value > 0.95) continue;
+            zombieAudio.PlayIdleClip();
         }
 
         // Stop coroutine
@@ -35,7 +35,9 @@ public class ZombieHealthScript : MonoBehaviour
 
     public void TakeDamage(int dmg)
     {
-        zombieAudio.PlayHurtClip();
+
+        if (Random.value > 0.5)
+            zombieAudio.PlayHurtClip();
 
         health -= dmg;
         if (health > 0) return;

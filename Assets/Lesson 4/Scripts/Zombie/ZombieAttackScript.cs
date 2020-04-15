@@ -37,9 +37,11 @@ public class ZombieAttackScript : MonoBehaviour
             
             FpsHealthScript player = collider.gameObject.GetComponent<FpsHealthScript>();
 
-            zombieAudio.PlayAttackClip();
-
             player.TakeDamage(zombieData.damage);
+
+            if (Random.value > 0.5) return;
+            
+            zombieAudio.PlayAttackClip();
         }
     }
 }

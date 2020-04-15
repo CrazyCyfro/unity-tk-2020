@@ -6,7 +6,6 @@ public class GunWeapon : FpsWeapon
 {
     private Transform barrelLocation;
     private GameObject gunObject;
-
     private ParticleSystem muzzleFlashSystem;
     public Transform canvasTrans;
 
@@ -28,8 +27,6 @@ public class GunWeapon : FpsWeapon
     {
         fireInterval = 1/fireRate;
 
-        muzzleFlashSystem = Instantiate(muzzleFlashPrefab, barrelLocation.position, barrelLocation.rotation, weaponObject.transform)
-        .GetComponent<ParticleSystem>();
     }
     
     public override bool CanFire()
@@ -43,6 +40,8 @@ public class GunWeapon : FpsWeapon
     }
     public override void Fire()
     {
+
+        // Play gunshot sound
         weaponAudio.PlayOneShot(firingAudioClip);
 
         // Play muzzle flash particles
@@ -59,16 +58,24 @@ public class GunWeapon : FpsWeapon
         // Check if a zombie was hit
         if (hit.collider.gameObject.tag == "Zombie") {
             ZombieHealthScript zombie = hit.collider.gameObject.GetComponent<ZombieHealthScript>();
+
+            // Zombie takes numerical damage
             zombie.TakeDamage(bulletDamage);
+
+            // Type of force to inflict on zombie ragdoll (on killing blow)
             zombie.TakeBulletForce(-hit.normal * bulletForceMultiplier, hit.point);
         }
     }
 
     public override void Setup(GameObject obj)
     {
+        // Store FpsWeapon GameObject
         weaponObject = obj;
 
+        // Store BarrelLocation transform
         barrelLocation = weaponObject.transform.Find("BarrelLocation");
+        
+        // Create muzzle flash ParticleSystem at BarrelLocation and store it
         muzzleFlashSystem = Instantiate(muzzleFlashPrefab, barrelLocation.position, barrelLocation.rotation, weaponObject.transform)
         .GetComponent<ParticleSystem>();
     }

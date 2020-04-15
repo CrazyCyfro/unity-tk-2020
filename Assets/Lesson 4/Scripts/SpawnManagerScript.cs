@@ -10,6 +10,8 @@ public class SpawnManagerScript : MonoBehaviour
     public List<Transform> spawners;
     public List<GameObject> zombiePrefabs;
 
+    public int maximum;
+
     void Start()
     {
         StartCoroutine(SpawnWave(100, 1f));
@@ -21,7 +23,9 @@ public class SpawnManagerScript : MonoBehaviour
 
         while (total < n) {
             foreach (Transform spawner in spawners) {
+                yield return new WaitForSeconds(interval);
                 if (Vector3.Distance(spawner.position, playerData.playerPos) < minDistance) continue;
+                if (total > maximum) continue;
 
                 int randomIndex = Random.Range(0, zombiePrefabs.Count);
                 
@@ -29,8 +33,6 @@ public class SpawnManagerScript : MonoBehaviour
                 
                 total++;
                 if (total >= n) break;
-
-                yield return new WaitForSeconds(interval);
             }
         }
     }

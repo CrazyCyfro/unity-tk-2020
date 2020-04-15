@@ -14,20 +14,23 @@ public class FpsFiringScript : MonoBehaviour
 
     void Start()
     {
-        currentWeapon = weapons[weaponIndex];
-        weaponHudTrans.transform.localPosition = currentWeapon.weaponHudLoc;
-        currentWeaponModel = Instantiate(currentWeapon.weaponPrefab, weaponHudTrans.position, 
-        currentWeapon.weaponHudRot.rotation, canvasTrans);
-        currentWeapon.Setup(currentWeaponModel);
+        SwitchWeapon(weapons[weaponIndex]);
     }
     void Update()
     {
+
+        // Q key to switch weapon
         if (Input.GetKeyDown(KeyCode.Q))
         {
+            // Index cycles from 0 to weapons.Count then repeats
             weaponIndex = (weaponIndex + 1) % weapons.Count;
+
+            // Destroy FpsWeapon GameObject from HUD position
+            Destroy(currentWeaponModel);
             SwitchWeapon(weapons[weaponIndex]);
         } 
 
+        // Fire only if CanFire returns true
         if (Input.GetButtonDown("Fire1") && currentWeapon.CanFire()) {
             currentWeapon.Fire();
         }
@@ -35,12 +38,17 @@ public class FpsFiringScript : MonoBehaviour
 
     void SwitchWeapon(FpsWeapon weapon)
     {
-        Destroy(currentWeaponModel);
-
+        // Set current FpsWeapon
         currentWeapon = weapon;
-        weaponHudTrans.transform.localPosition = currentWeapon.weaponHudLoc;
+
+        // Convert current FpsWeapon's HUD position to local HUD position (bottom right of screen) of weaponHudTrans
+        weaponHudTrans.localPosition = currentWeapon.weaponHudPos;
+
+        // Create FpsWeapon GameObject at HUD position
         currentWeaponModel = Instantiate(currentWeapon.weaponPrefab, weaponHudTrans.position, 
         currentWeapon.weaponHudRot.rotation, canvasTrans);
+
+        // Give FpsWeapon GameObject back to script for reference and perform setup
         currentWeapon.Setup(currentWeaponModel);
     }
 }
