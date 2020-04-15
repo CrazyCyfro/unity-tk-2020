@@ -6,8 +6,8 @@ public class FpsFiringScript : MonoBehaviour
 {
     public List<FpsWeapon> weapons;
     public Transform canvasTrans;
-
     public Transform weaponHudTrans;
+    public EquippedWeaponData eqWeaponData;
     private FpsWeapon currentWeapon;
     private GameObject currentWeaponModel;
     private int weaponIndex = 0;
@@ -30,6 +30,11 @@ public class FpsFiringScript : MonoBehaviour
             SwitchWeapon(weapons[weaponIndex]);
         } 
 
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            currentWeapon.Reload();
+        }
+
         // Fire only if CanFire returns true
         if (Input.GetButtonDown("Fire1") && currentWeapon.CanFire()) {
             currentWeapon.Fire();
@@ -38,8 +43,11 @@ public class FpsFiringScript : MonoBehaviour
 
     void SwitchWeapon(FpsWeapon weapon)
     {
+        if (currentWeapon != null) currentWeapon.Dismantle();
+
         // Set current FpsWeapon
         currentWeapon = weapon;
+        eqWeaponData.weapon = currentWeapon;
 
         // Convert current FpsWeapon's HUD position to local HUD position (bottom right of screen) of weaponHudTrans
         weaponHudTrans.localPosition = currentWeapon.weaponHudPos;
