@@ -17,15 +17,11 @@ public class FpsMovementScript : MonoBehaviour
     public float dist2Ground;
     public LayerMask groundMask;
     public float GRAVITY = -9.81f;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
     void Update()
     {
+        if (playerData.Dead()) return;
+
         controller.Move(UpdatePlayerMove() + UpdateGravVelocity() * Time.deltaTime);
         UpdatePlayerTransform();
     }

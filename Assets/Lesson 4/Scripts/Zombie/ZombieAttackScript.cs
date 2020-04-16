@@ -9,7 +9,7 @@ public class ZombieAttackScript : MonoBehaviour
     public NavMeshAgent navMeshAgent;
     public ZombieAudioScript zombieAudio;
 
-    // Attack speed implementation
+    // Attack implementation
     private float t = 0;
     private float attackInterval;
     
@@ -28,18 +28,30 @@ public class ZombieAttackScript : MonoBehaviour
         }
     }
 
-    void OnTriggerStay(Collider collider)
+    void OnTriggerEnter(Collider collider)
     {
-        // Continue if CanAttack is true
-        if (!CanAttack()) return;
-        
         if (collider.gameObject.tag == "Player" && navMeshAgent.enabled == true) {
-            
             FpsHealthScript player = collider.gameObject.GetComponent<FpsHealthScript>();
+            StartCoroutine(Attacking(player));
+        }
+    }
 
-            zombieAudio.PlayAttackClip();
+    void OnTriggerExit(Collider collider)
+    {
+        if (collider.gameObject.tag == "Player" && navMeshAgent.enabled == true) {
+            StopAllCoroutines();
+        }
+    }
 
+    IEnumerator Attacking(FpsHealthScript player)
+    {
+        while (true)
+        {
             player.TakeDamage(zombieData.damage);
+        
+            if (Random.value > 0.5) zombieAudio.PlayAttackClip();
+
+            yield return new WaitForSeconds(attackInterval);
         }
     }
 }

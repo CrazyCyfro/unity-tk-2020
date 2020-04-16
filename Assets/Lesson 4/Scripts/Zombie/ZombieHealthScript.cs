@@ -6,9 +6,11 @@ using UnityEngine.AI;
 public class ZombieHealthScript : MonoBehaviour
 {
     public ZombieData zombieData;
+    public SpawnData spawnData;
+
+    public PlayerData playerData;
     public ZombieAudioScript zombieAudio;
     public NavMeshAgent navMeshAgent;
-
     public Rigidbody rb;
     public Collider col;
     private int health;
@@ -25,29 +27,52 @@ public class ZombieHealthScript : MonoBehaviour
 
         // Play idle clip while zombie is alive
         while (health > 0) {
-
-            zombieAudio.PlayIdleClip();
             yield return new WaitForSeconds(zombieData.idleInterval);
+            yield return new WaitForSeconds(Random.Range(0, zombieData.idleInterval));
+            if (Random.value > 0.95) continue;
+            zombieAudio.PlayIdleClip();
         }
 
         // Stop coroutine
         yield break;
     }
 
-    public void TakeBulletDamage(int dmg, Vector3 force, Vector3 point)
+    public void TakeDamage(int dmg)
     {
-        zombieAudio.PlayHurtClip();
+
+        if (Random.value > 0.5)
+            zombieAudio.PlayHurtClip();
 
         health -= dmg;
-        if (health > 0) return;
 
-        // If health < 0, disable NavMeshAgent and enable ragdoll physics
+        if (health <= 0) Die();
+        
+    }
+
+    public void TakeBulletForce(Vector3 force, Vector3 point)
+    {
+        if (navMeshAgent.enabled) return;
+
+        // Impart force from bullet
+        rb.AddForceAtPosition(force, point);
+    }
+
+    public void TakeExplosiveForce(float force, Vector3 centre, float radius, float up)
+    {
+        if (navMeshAgent.enabled) return;
+
+        // Impart force from explosion
+        rb.AddExplosionForce(force, centre, radius, up);
+    }
+
+    void Die()
+    {
+        spawnData.zombies--;
+        playerData.killCount++;
+        // Disable NavMeshAgent and enable ragdoll physics
         navMeshAgent.enabled = false;
         col.isTrigger = false;
         rb.isKinematic = false;
-        
-        // Impart force from bullet
-        rb.AddForceAtPosition(force, point);
 
         // Destroy zombie after delay
         Destroy(gameObject, zombieData.destroyDelay);
