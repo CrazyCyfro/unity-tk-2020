@@ -110,7 +110,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 4434554656183306322}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.35
   m_Speed: 4
   m_Acceleration: 8
   avoidancePriority: 50
@@ -263,6 +263,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zombieData: {fileID: 11400000, guid: f3859a595fbc17a4cb36aa3f90d7e09b, type: 2}
+  spawnData: {fileID: 11400000, guid: a7654e436b242164383fb8d2baf916c3, type: 2}
+  playerData: {fileID: 11400000, guid: 1ddf1b6d3b0020c46bd409b2ce1a7ab7, type: 2}
   zombieAudio: {fileID: 4075686936242032229}
   navMeshAgent: {fileID: 4434554656183306323}
   rb: {fileID: 4434554656183306409}

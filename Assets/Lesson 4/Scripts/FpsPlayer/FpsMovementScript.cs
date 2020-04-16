@@ -20,6 +20,8 @@ public class FpsMovementScript : MonoBehaviour
 
     void Update()
     {
+        if (playerData.Dead()) return;
+
         controller.Move(UpdatePlayerMove() + UpdateGravVelocity() * Time.deltaTime);
         UpdatePlayerTransform();
     }

@@ -28,23 +28,14 @@ public class GunWeapon : FpsWeapon
 
     void Start()
     {
-        // Distribute ammo between magazine and reserve
-        reserve = ammo;
-        magazine = 0;
-        reloading = false;
-        
-        // Quick reload without delay
-        int deficit = magazineSize - magazine;   
-    
-        if (reserve >= deficit) {
-            reserve -= deficit;
-            magazine = magazineSize;
-        } else {
-            magazine += reserve;
-            reserve = 0;
-        }
-    }
+        ResetAmmo();
 
+        reloading = false;
+
+        // Distribute ammo between magazine and reserve
+        magazine = 0;
+        StartCoroutine(ReloadTimer(0));
+    }
     void Update()
     {
         // Update ammo and force reload every frame
@@ -52,13 +43,21 @@ public class GunWeapon : FpsWeapon
         if (magazine <= 0) Reload();
     }
 
+    public override void ResetAmmo()
+    {
+        reserve = maxAmmo;
+    }
+
     public override void Setup(GameObject obj)
     {
         base.Setup(obj);
-
+        
         // Set reloading to false so it does not get stuck at true if weapon switched during reload previously
         reloading = false;
-        
+
+        // Reload immediately if magazine is empty
+        if (magazine <= 0) Reload();
+
         // Calculate fireInterval
         fireInterval = 1/fireRate;
 
@@ -72,6 +71,8 @@ public class GunWeapon : FpsWeapon
 
     public override void Dismantle()
     {
+
+        // Stop reloading if weapon is switched away
         StopAllCoroutines();
     }
     public override void Fire()
@@ -115,14 +116,14 @@ public class GunWeapon : FpsWeapon
         // or reserve is empty
         if (reserve <= 0) return; 
         
-        StartCoroutine(ReloadTimer());   
+        StartCoroutine(ReloadTimer(reloadTime));   
     }
 
-    IEnumerator ReloadTimer()
+    IEnumerator ReloadTimer(float delay)
     {
         // Set reloading to true and wait
         reloading = true;
-        yield return new WaitForSeconds(reloadTime);
+        yield return new WaitForSeconds(delay);
         
         // Reloading code
         int deficit = magazineSize - magazine;   

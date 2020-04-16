@@ -8,18 +8,20 @@ public class FpsFiringScript : MonoBehaviour
     public Transform canvasTrans;
     public Transform weaponHudTrans;
     public EquippedWeaponData eqWeaponData;
+
+    public PlayerData playerData;
     private FpsWeapon currentWeapon;
     private GameObject currentWeaponModel;
     private int weaponIndex = 0;
 
     void Start()
     {
+        playerData.killCount = 0;
         SwitchWeapon(weapons[weaponIndex]);
     }
     void Update()
     {
-
-        // Q key to switch weapon
+        if (playerData.Dead()) return;
         if (Input.GetKeyDown(KeyCode.Q))
         {
             // Index cycles from 0 to weapons.Count then repeats
@@ -35,7 +37,7 @@ public class FpsFiringScript : MonoBehaviour
             currentWeapon.Reload();
         }
 
-        // Fire only if CanFire returns true
+
         if (Input.GetButtonDown("Fire1") && currentWeapon.CanFire()) {
             currentWeapon.Fire();
         }

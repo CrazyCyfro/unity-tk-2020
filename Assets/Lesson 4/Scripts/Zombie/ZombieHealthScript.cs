@@ -6,6 +6,9 @@ using UnityEngine.AI;
 public class ZombieHealthScript : MonoBehaviour
 {
     public ZombieData zombieData;
+    public SpawnData spawnData;
+
+    public PlayerData playerData;
     public ZombieAudioScript zombieAudio;
     public NavMeshAgent navMeshAgent;
     public Rigidbody rb;
@@ -25,6 +28,7 @@ public class ZombieHealthScript : MonoBehaviour
         // Play idle clip while zombie is alive
         while (health > 0) {
             yield return new WaitForSeconds(zombieData.idleInterval);
+            yield return new WaitForSeconds(Random.Range(0, zombieData.idleInterval));
             if (Random.value > 0.95) continue;
             zombieAudio.PlayIdleClip();
         }
@@ -40,15 +44,9 @@ public class ZombieHealthScript : MonoBehaviour
             zombieAudio.PlayHurtClip();
 
         health -= dmg;
-        if (health > 0) return;
 
-        // If health < 0, disable NavMeshAgent and enable ragdoll physics
-        navMeshAgent.enabled = false;
-        col.isTrigger = false;
-        rb.isKinematic = false;
-
-        // Destroy zombie after delay
-        Destroy(gameObject, zombieData.destroyDelay);
+        if (health <= 0) Die();
+        
     }
 
     public void TakeBulletForce(Vector3 force, Vector3 point)
@@ -65,5 +63,18 @@ public class ZombieHealthScript : MonoBehaviour
 
         // Impart force from explosion
         rb.AddExplosionForce(force, centre, radius, up);
+    }
+
+    void Die()
+    {
+        spawnData.zombies--;
+        playerData.killCount++;
+        // Disable NavMeshAgent and enable ragdoll physics
+        navMeshAgent.enabled = false;
+        col.isTrigger = false;
+        rb.isKinematic = false;
+
+        // Destroy zombie after delay
+        Destroy(gameObject, zombieData.destroyDelay);
     }
 }

@@ -12,14 +12,15 @@ public class FpsHealthScript : MonoBehaviour
     {
         health = playerData.initHealth;
     }
+
+    void Update()
+    {
+        playerData.currentHealth = health;
+    }
     public void TakeDamage(int dmg)
     {
         health -= dmg;
 
-        Debug.Log("Health: " + health);
-        
-        if (health > 0) return;
-
-        Debug.Log("You lose!");
+        if (health < 0) health = 0;
     }
 }

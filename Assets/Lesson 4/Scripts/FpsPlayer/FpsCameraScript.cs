@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class FpsCameraScript : MonoBehaviour
 {
+    public PlayerData playerData;
+
     [Header("Camera settings")]
     public Camera playerCamera;
     private float camVertAngle = 0;
@@ -18,6 +20,11 @@ public class FpsCameraScript : MonoBehaviour
 
     void Update()
     {
+        if (playerData.Dead()) {
+            Cursor.lockState = CursorLockMode.None;
+            return;
+        }
+
         UpdateCameraRotation();
         UpdateCursorState();
     }

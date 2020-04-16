@@ -4,7 +4,6 @@ using UnityEngine;
 
 public abstract class FpsWeapon : MonoBehaviour
 {
-
     // Run when swapping to weapon
     public virtual void Setup(GameObject obj) {
         weaponObject = obj;
@@ -12,8 +11,8 @@ public abstract class FpsWeapon : MonoBehaviour
 
     // Run when swapping away from weapon
     public virtual void Dismantle() {}
-    public virtual void AddAmmo(int amount) {
-        ammo += amount;
+    public virtual void ResetAmmo() {
+        ammo = maxAmmo;
     }
 
     public virtual void Reload() {}
@@ -59,6 +58,8 @@ public abstract class FpsWeapon : MonoBehaviour
 
     // Local xyz position inside HUD
     public Vector3 weaponHudPos;
+
+    public int maxAmmo;
     public int ammo;
     public float fireInterval;
 

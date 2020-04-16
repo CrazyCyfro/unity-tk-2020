@@ -24,6 +24,11 @@ public class GrenadeWeapon : FpsWeapon
     [Header("Prefabs")]
     public GameObject liveGrenadePrefab;
     public GameObject explosionPrefab;
+
+    void Start()
+    {
+        ResetAmmo();
+    }
     public override void Setup(GameObject obj)
     {
         base.Setup(obj);
