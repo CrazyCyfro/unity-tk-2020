@@ -21,11 +21,4 @@ public class BirdScript : MonoBehaviour
 			Destroy(gameObject);
 		}
     }
-	
-	void OnCollisionEnter(Collision collision) {
-		if (collision.gameObject.tag == "wood" || collision.gameObject.tag == "steel") {
-			ObjectScript objectScript = collision.gameObject.GetComponent<ObjectScript>();
-			objectScript.Hit();
-		}
-	}
 }

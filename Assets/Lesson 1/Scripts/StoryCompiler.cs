@@ -75,7 +75,7 @@ public class StoryCompiler
 		}
 	}
 	
-	void FindChoices() {
+	void FindChoices() {//checks if nextline begins with a '*', if it does call the function again
 		buttonTitles.Add(storyList[currentProgress][2]);
 		string nextLine = storyList[currentProgress+1][2].ToString();
 		if (nextLine[0] == '*') {

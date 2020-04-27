@@ -28,7 +28,7 @@ public class ObjectScript : MonoBehaviour
 		}
     }
 	
-	public void Hit() {
+	private void Hit() {
 		currentHits++;
 		//print(((float)currentHits/(float)hitsToDestroy*0.1f).ToString());
 		gameObject. GetComponent<Renderer>().material.color = new Color((float)currentHits/(float)hitsToDestroy,0,0);
@@ -40,6 +40,12 @@ public class ObjectScript : MonoBehaviour
 				gameData.score += 2;
 			}
 			Destroy(gameObject);
+		}
+	}
+	
+	void OnCollisionEnter(Collision collision) {
+		if (collision.gameObject.tag == "bird") {
+			Hit();
 		}
 	}
 }
