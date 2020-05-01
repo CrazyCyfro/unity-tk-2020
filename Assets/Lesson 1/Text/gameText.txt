@@ -1,8 +1,7 @@
 entrance|You're at the entrance of your house.
 hallway>*Go in.
-bedroom>*Teleporto.
-hallway|bedroom>Hallway
-bedroom|end>bedroom
-
-
-stone stairway|It’s the same stone stairway again. You’re walking down the roughly hewn stone steps, the light patter of each step joining the faintly resounding echo of its brethren long-forgotten. A gentle rhythm that prods you along, and you go along with it.
+failbedroom>*Teleport in.
+hallway|bedroom>You're in the hallway. The bedroom's the only room open.
+failbedroom|hallway>you can't teleport. you just have to walk into the hallway.
+bedroom|end>You're in the bedroom.
+end|that's the end of your boring life.

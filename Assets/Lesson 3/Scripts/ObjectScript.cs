@@ -8,10 +8,12 @@ public class ObjectScript : MonoBehaviour
 	public GameDataScriptableObject gameData;
 	private int hitsToDestroy;
 	private int currentHits = 0;
+	private AudioSource audioSource;
 	
     // Start is called before the first frame update
     void Start()
     {
+		audioSource = gameObject.GetComponent<AudioSource>();
         if (gameObject.tag == "wood") {
 			hitsToDestroy = gameData.hitsToDestroyWood;
 		}
@@ -32,7 +34,9 @@ public class ObjectScript : MonoBehaviour
 		currentHits++;
 		//print(((float)currentHits/(float)hitsToDestroy*0.1f).ToString());
 		gameObject. GetComponent<Renderer>().material.color = new Color((float)currentHits/(float)hitsToDestroy,0,0);
+		
 		if (currentHits == hitsToDestroy) {
+			AudioSource.PlayClipAtPoint(audioSource.clip, transform.position, 0.7f);
 			if (gameObject.tag == "wood") {
 				gameData.score += 1;
 			}
@@ -40,6 +44,9 @@ public class ObjectScript : MonoBehaviour
 				gameData.score += 2;
 			}
 			Destroy(gameObject);
+		}
+		else {
+			AudioSource.PlayClipAtPoint(audioSource.clip, transform.position, 0.3f);
 		}
 	}
 	

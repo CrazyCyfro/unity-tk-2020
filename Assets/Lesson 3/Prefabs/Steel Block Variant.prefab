@@ -72,6 +72,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: steel
       objectReference: {fileID: 0}
+    - target: {fileID: 8277326905681537451, guid: 2c1d5339214fae4418a645cbb76ba087,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 3c517b3fed0d3d640835f95719e99795, type: 3}
     - target: {fileID: 8859722417318140517, guid: 2c1d5339214fae4418a645cbb76ba087,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
