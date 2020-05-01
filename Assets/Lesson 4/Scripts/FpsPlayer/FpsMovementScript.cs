@@ -22,7 +22,7 @@ public class FpsMovementScript : MonoBehaviour
     {
         if (playerData.Dead()) return;
 
-        controller.Move(UpdatePlayerMove() + UpdateGravVelocity() * Time.deltaTime);
+        controller.Move((UpdatePlayerMove() + UpdateGravVelocity()) * Time.deltaTime);
         UpdatePlayerTransform();
     }
 
@@ -45,7 +45,7 @@ public class FpsMovementScript : MonoBehaviour
         // Clamp magnitude to 1
         if (moveVector.magnitude > 1) moveVector.Normalize();
 
-        return moveVector * moveSpeed * Time.deltaTime;
+        return moveVector * moveSpeed;
     }
 
     void UpdatePlayerTransform()

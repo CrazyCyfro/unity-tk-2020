@@ -14,10 +14,12 @@ public class ZombieHealthScript : MonoBehaviour
     public Rigidbody rb;
     public Collider col;
     private int health;
+    private bool dead;
     
     void Start()
     {
         health = zombieData.initHealth;
+        dead = false;
 
         StartCoroutine(PlayIdleAudio());
     }
@@ -67,8 +69,13 @@ public class ZombieHealthScript : MonoBehaviour
 
     void Die()
     {
+        // Only call when zombie hasn't died already
+        if (dead) return;
+        dead = true;
+
         spawnData.zombies--;
         playerData.killCount++;
+        
         // Disable NavMeshAgent and enable ragdoll physics
         navMeshAgent.enabled = false;
         col.isTrigger = false;

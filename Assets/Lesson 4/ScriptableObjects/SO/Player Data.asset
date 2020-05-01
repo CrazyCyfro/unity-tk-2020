@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: Player Data
   m_EditorClassIdentifier: 
   initHealth: 10
-  playerPos: {x: 26.184017, y: 2.0499997, z: -11.39561}
+  currentHealth: 0
+  playerPos: {x: 25.934868, y: 2.0842438, z: -14.021189}
+  killCount: 0
