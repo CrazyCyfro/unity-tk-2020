@@ -39,6 +39,7 @@ public class ZombieAttackScript : MonoBehaviour
     void OnTriggerExit(Collider collider)
     {
         if (collider.gameObject.tag == "Player" && navMeshAgent.enabled == true) {
+            Debug.Log("Stopping attacks");
             StopAllCoroutines();
         }
     }

@@ -5,13 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Lesson 4/Scenes/MainMenuScene.unity
     guid: 10b977ccb7689f34b978c89fd419fbcd
-  - enabled: 1
+  - enabled: 0
     path: Assets/Lesson 3/Scenes/AngryBirdsScene.unity
     guid: fab4142553b5de242b64fc6e56b7819b
-  - enabled: 1
+  - enabled: 0
     path: Assets/Lesson 3/Scenes/EndGameScene.unity
     guid: 8071bf12f48437f48903d45f38d7d5e1
   - enabled: 1

@@ -39,8 +39,8 @@ public class FpsCameraScript : MonoBehaviour
     void UpdateCameraRotation()
     {
         // Horizontal rotation
-        transform.Rotate(new Vector3(0, LookInputX(), 0));
-
+        transform.Rotate(Vector3.up, LookInputX());
+        
         // Vertical rotation
         camVertAngle += LookInputY();
         camVertAngle = Mathf.Clamp(camVertAngle, -89f, 89f);

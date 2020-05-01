@@ -18,33 +18,35 @@ public class SpawnManagerScript : MonoBehaviour
     {
         spawnData.zombies = 0;
         spawnData.resupply = 0;
-        StartCoroutine(SpawnWave(100, 1f));
+        StartCoroutine(SpawnWave(2f));
     }
 
-    IEnumerator SpawnWave(int n, float interval)
+    IEnumerator SpawnWave(float interval)
     {
-        while (spawnData.zombies < n) {
-            foreach (Transform spawner in spawners) {
-                yield return null;
-                if (Vector3.Distance(spawner.position, playerData.playerPos) < minDistance) continue;
-                if (spawnData.zombies > maxZombies) continue;
 
-                yield return new WaitForSeconds(interval);
+        while (true) {
+            yield return new WaitForSeconds(interval);
 
-                int randomIndex = Random.Range(0, zombiePrefabs.Count);
-                
-                GameObject zombie = Instantiate(zombiePrefabs[randomIndex], spawner.position, Quaternion.identity);
+            // Proceed only if player distance to spawner is greater than minDistance
+            Transform spawner = spawners[Random.Range(0, spawners.Count)];
+            if (Vector3.Distance(spawner.position, playerData.playerPos) < minDistance) continue;
 
-                spawnData.zombies++;
-
-                if (spawnData.resupply <= 0 && Random.value > 0.8) {
-                    Instantiate(resupplyPrefab, spawner.position, Quaternion.identity);
-                    spawnData.resupply++;
-                } 
-
-                if (spawnData.zombies >= n) break;
+            // Spawn an ammo resupply if there are none at 20% chance per cycle
+            if (spawnData.resupply <= 0 && Random.value > 0.8) {
+                Instantiate(resupplyPrefab, spawner.position, Quaternion.identity);
+                spawnData.resupply++;
             }
+
+            // Proceed only if number of zombies alive is less than maximum allowed
+            if (spawnData.zombies >= maxZombies) continue;
+
+            // Spawn random zombie from zombiePrefabs
+            int randomIndex = Random.Range(0, zombiePrefabs.Count);
+            GameObject zombie = Instantiate(zombiePrefabs[randomIndex], spawner.position, Quaternion.identity);
+            spawnData.zombies++;
+
+            
+            
         }
-        yield break;
     }
 }
