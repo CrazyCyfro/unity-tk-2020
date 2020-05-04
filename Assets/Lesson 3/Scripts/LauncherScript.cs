@@ -77,6 +77,9 @@ public class LauncherScript : MonoBehaviour
 		if (GameObject.FindGameObjectsWithTag("wood").Length == 0 && GameObject.FindGameObjectsWithTag("steel").Length == 0) {
 			EndGame();
 		}
+		if (Input.GetKeyDown("q")) {
+			EndGame();
+		}
     }
 	
 	bool canFire() {

@@ -33,7 +33,7 @@ public class ObjectScript : MonoBehaviour
 	private void Hit() {
 		currentHits++;
 		//print(((float)currentHits/(float)hitsToDestroy*0.1f).ToString());
-		gameObject. GetComponent<Renderer>().material.color = new Color((float)currentHits/(float)hitsToDestroy,0,0);
+		gameObject.GetComponent<Renderer>().material.color = new Color((float)currentHits/(float)hitsToDestroy,0,0);
 		
 		if (currentHits == hitsToDestroy) {
 			AudioSource.PlayClipAtPoint(audioSource.clip, transform.position, 0.7f);
