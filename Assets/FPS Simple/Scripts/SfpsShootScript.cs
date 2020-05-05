@@ -14,7 +14,7 @@ public class SfpsShootScript : MonoBehaviour
     }
     void Fire()
     {
-        // Check for impact. If present, continue.
+        // Check for impact. If absent, return.
         RaycastHit hit;
         if (!Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, Mathf.Infinity)) return;
 
