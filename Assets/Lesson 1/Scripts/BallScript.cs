@@ -34,7 +34,7 @@ public class BallScript : MonoBehaviour
 	
 	void OnCollisionEnter(Collision collision) {
 		if (collision.collider.tag == "Player") {
-			Instantiate(explosion, transform);
+			Instantiate(explosion, transform.position, transform.rotation);
 		}
 	}
 }
