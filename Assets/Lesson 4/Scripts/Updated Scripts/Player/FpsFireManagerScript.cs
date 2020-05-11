@@ -11,6 +11,7 @@ public class FpsFireManagerScript : MonoBehaviour
     void Update()
     {
         if (weaponPos.childCount == 0) return;
+        if (fireMech == null || reloadSys == null) return;
 
         if (fireMech.mode == FireMechanism.FireMode.Semi) {
             if (Input.GetButtonDown("Fire1")) {

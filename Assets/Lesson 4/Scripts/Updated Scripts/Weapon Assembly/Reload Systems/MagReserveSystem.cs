@@ -39,6 +39,9 @@ public class MagReserveSystem : ReloadSystem, IAddReset
     {
         mag -= 1;
         if (reserve > 0 && mag == 0) Reload();
+
+        Debug.Log("Mag: " + mag);
+        Debug.Log("Reserve: " + reserve);
     }
 
     public override void Reload()
@@ -49,13 +52,16 @@ public class MagReserveSystem : ReloadSystem, IAddReset
 
         reloadCoroutine = ReloadTimer();
         StartCoroutine(reloadCoroutine);
+        Debug.Log("Reload started");
     }
 
     public override void CancelReload()
     {
         if (reloadCoroutine == null) return;
         StopCoroutine(reloadCoroutine);
+        if (reloading) Debug.Log("Reload cancelled");
         reloading = false;
+        
     }
 
     IEnumerator ReloadTimer()
@@ -73,7 +79,9 @@ public class MagReserveSystem : ReloadSystem, IAddReset
             reserve = 0;
         }
 
+        Debug.Log("Reload finished");
         reloading = false;
+        
     }
 
     

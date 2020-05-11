@@ -6,13 +6,10 @@ public class PistolFireMech : FireMechanism
 {
     public GameObject bulletImpactPrefab;
     Camera playerCamera;
-
-    void OnEnable()
-    {
-        playerCamera = GetComponentInParent<Camera>();
-    }
     public override void Fire()
     {
+        if (playerCamera == null) playerCamera = GetComponentInParent<Camera>();
+
         // Check for impact. If present, continue.
         RaycastHit hit;
         if (!Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, Mathf.Infinity)) return;
