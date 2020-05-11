@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Lesson 1/Scripts/BallLifespanScript.cs.meta
 guid: 1c576a84ca050c34cb265a3df5d81375
+=======
+guid: 9c24a68de9401bb48bf0ca8c09aa7916
+>>>>>>> bbedd55ef8f1a9d20bde14819bfbe0edbeab834c:Assets/Lesson 4/Scripts/SceneManagerScript.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
