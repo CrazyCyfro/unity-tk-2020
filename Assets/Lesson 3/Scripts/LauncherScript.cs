@@ -55,7 +55,7 @@ public class LauncherScript : MonoBehaviour
 					firingForceMultiplier = (Time.time - initialTime) * firingSensitivity;
 				}
 				
-				Vector3 firingVector = transform.position - camera.transform.position;
+				Vector3 firingVector = transform.position - cam.transform.position;
 				
 				fireTiming = Time.time;
 				firepowerTrackerAnimator.SetBool("isFiring", false);
