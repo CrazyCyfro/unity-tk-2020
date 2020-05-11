@@ -44,8 +44,8 @@ public class BallSpawnerScript : MonoBehaviour
             GameObject ball =  Instantiate(ballPrefab, spawnLocation, Quaternion.identity);
             Rigidbody ballRb = ball.GetComponent<Rigidbody>();
             
-            BallScript ballScript = ball.GetComponent<BallScript>();
-            ballScript.SetLifespan(ballLifespan);
+            BallLifespanScript ballLifespanScript = ball.GetComponent<BallLifespanScript>();
+            ballLifespanScript.SetLifespan(ballLifespan);
             
             Vector3 normal = planeMeshFilter.transform.TransformDirection(planeMeshFilter.mesh.normals[0]);
 
