@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class LauncherScript : MonoBehaviour
 {
 	public GameObject birdPrefab;
-	public GameObject camera;
+	public GameObject cam;
 	public GameObject firepowerTracker;
 	public GameObject birdsCreatedTracker;
 	
