@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class SfpsEnemyNavScript : MonoBehaviour
 {
     public NavMeshAgent agent;
-    public PlayerData playerData;
+    public SimplePlayerData playerData;
 
     void Update()
     {

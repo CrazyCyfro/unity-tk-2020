@@ -141,7 +141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 426073360}
-  playerData: {fileID: 11400000, guid: f6f3aed5a52939845bfbad9b3dbb7f21, type: 2}
+  playerData: {fileID: 11400000, guid: f0a4045f03d25b849869e3fde6977add, type: 2}
 --- !u!195 &426073360
 NavMeshAgent:
   m_ObjectHideFlags: 0

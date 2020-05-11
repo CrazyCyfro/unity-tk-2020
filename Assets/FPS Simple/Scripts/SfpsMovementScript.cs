@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SfpsMovementScript : MonoBehaviour
 {
-    public PlayerData playerData;
+    public SimplePlayerData playerData;
     public CharacterController controller;
     public Transform groundCheck;
     public LayerMask groundLayer;
