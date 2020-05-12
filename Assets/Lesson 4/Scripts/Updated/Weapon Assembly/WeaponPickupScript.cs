@@ -4,30 +4,32 @@ using UnityEngine;
 
 public class WeaponPickupScript : MonoBehaviour
 {
-    private const int fpLayer = 10;
-    private const int weaponLayer = 11;
+    public int[] slots;
+    private float thrust;
+    private const int FP_LAYER = 10;
+    private const int WEAPON_LAYER = 11;
     Rigidbody rb;
     Collider col;
     Transform[] children;
     MonoBehaviour[] components;
     void Start()
     {
+        thrust = 1;
+
         rb = GetComponent<Rigidbody>();
         col = GetComponentInChildren<MeshCollider>();
 
         components = GetComponents<MonoBehaviour>();
         children = GetComponentsInChildren<Transform>();
     }
-    public void Pickup(Transform hudPos)
+    public WeaponPickupScript Pickup()
     {
         transform.position = Vector3.zero;
         transform.rotation = Quaternion.identity;
-        transform.SetParent(hudPos, false);
-        transform.SetAsFirstSibling();
 
         foreach(Transform child in children)
         {
-            child.gameObject.layer = fpLayer;
+            child.gameObject.layer = FP_LAYER;
         }
         
         foreach (MonoBehaviour script in components)
@@ -37,13 +39,18 @@ public class WeaponPickupScript : MonoBehaviour
 
         rb.isKinematic = true;
         col.enabled = false;
+
+        return this;
     }
 
-    public void Drop(float thrust)
+    public void Drop(Vector3 dropOffPoint)
     {
+        transform.SetParent(null);
+        transform.position = dropOffPoint;
+
         foreach(Transform child in children)
         {
-            child.gameObject.layer = weaponLayer;
+            child.gameObject.layer = WEAPON_LAYER;
         }
         
         foreach (MonoBehaviour script in components)
@@ -54,8 +61,6 @@ public class WeaponPickupScript : MonoBehaviour
         rb.isKinematic = false;
         col.enabled = true;
 
-        transform.SetParent(null);
-
-        rb.AddRelativeForce(Vector3.forward * thrust);
+        rb.AddRelativeForce(Vector3.up * thrust);
     }
 }

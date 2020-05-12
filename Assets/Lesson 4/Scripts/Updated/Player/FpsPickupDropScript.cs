@@ -5,25 +5,31 @@ using UnityEngine;
 public class FpsPickupDropScript : MonoBehaviour
 {
     public float pickupDistance;
-    public float thrust;
     public Transform weaponPos;
-    public Camera playerCamera;
+    public Transform dropOffPos;
     public LayerMask weaponMask;
+    private Camera playerCamera;
     private FpsWeaponSwitchScript switcher;
 
     void Start()
     {
         switcher = GetComponent<FpsWeaponSwitchScript>();
+        playerCamera = GetComponentInChildren<Camera>();
     }
     
     void Update()
     {
+        // F to drop weapon
         if (Input.GetKeyDown(KeyCode.F))
         {
-            if (weaponPos.childCount == 0) return;
+            // Get WeaponPickupScript from current active weapon
             WeaponPickupScript weapon = weaponPos.GetComponentInChildren<WeaponPickupScript>();
-            weapon.Drop(thrust);
-            switcher.AssignActiveWeapon();
+            if (weapon != null) {
+                // Drop weapon and assign new active weapon
+                weapon.Drop(dropOffPos.position);
+                switcher.AssignActiveWeapon();
+                
+            }
         }
 
         // Continue if weapon exists in pickup range
@@ -31,11 +37,13 @@ public class FpsPickupDropScript : MonoBehaviour
         if (!Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, 
         out hit, pickupDistance, weaponMask)) return;
 
+        // E to pick up weapon
         if (Input.GetKeyDown(KeyCode.E))
         {
+            // Get WeaponPickupScript, call Pickup and assign it as active weapon
             WeaponPickupScript weapon = hit.collider.GetComponentInParent<WeaponPickupScript>();
-            weapon.Pickup(weaponPos);
-            switcher.AssignActiveWeapon();
+            switcher.AssignActiveWeapon(weapon.Pickup());
+            
         }
     }
 }

@@ -11,6 +11,7 @@ public class FpsFireManagerScript : MonoBehaviour
     void Update()
     {
         if (weaponPos.childCount == 0) return;
+        if (fireMech == null || reloadSys == null) return;
 
         if (fireMech.mode == FireMechanism.FireMode.Semi) {
             if (Input.GetButtonDown("Fire1")) {
@@ -24,6 +25,8 @@ public class FpsFireManagerScript : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R)) {
             reloadSys.Reload();
+            FpsEvents.UpdateWeaponData.Invoke();
+            FpsEvents.UpdateHudEvent.Invoke();
         }
     }
 
@@ -38,6 +41,9 @@ public class FpsFireManagerScript : MonoBehaviour
         if (fireMech.CooledDown() && reloadSys.CanFire()) {
             fireMech.Fire();
             reloadSys.Fired();
+
+            FpsEvents.UpdateWeaponData.Invoke();
+            FpsEvents.UpdateHudEvent.Invoke();
         }
     }
 }
