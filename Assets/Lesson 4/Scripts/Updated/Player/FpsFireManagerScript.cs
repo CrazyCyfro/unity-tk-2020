@@ -25,6 +25,8 @@ public class FpsFireManagerScript : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R)) {
             reloadSys.Reload();
+            FpsEvents.UpdateWeaponData.Invoke();
+            FpsEvents.UpdateHudEvent.Invoke();
         }
     }
 
@@ -39,6 +41,9 @@ public class FpsFireManagerScript : MonoBehaviour
         if (fireMech.CooledDown() && reloadSys.CanFire()) {
             fireMech.Fire();
             reloadSys.Fired();
+
+            FpsEvents.UpdateWeaponData.Invoke();
+            FpsEvents.UpdateHudEvent.Invoke();
         }
     }
 }

@@ -28,6 +28,7 @@ public class FpsPickupDropScript : MonoBehaviour
                 // Drop weapon and assign new active weapon
                 weapon.Drop(dropOffPos.position);
                 switcher.AssignActiveWeapon();
+                
             }
         }
 
@@ -42,6 +43,7 @@ public class FpsPickupDropScript : MonoBehaviour
             // Get WeaponPickupScript, call Pickup and assign it as active weapon
             WeaponPickupScript weapon = hit.collider.GetComponentInParent<WeaponPickupScript>();
             switcher.AssignActiveWeapon(weapon.Pickup());
+            
         }
     }
 }
