@@ -43,7 +43,8 @@ public class LauncherScript : MonoBehaviour
 			else if (Input.GetMouseButtonUp(0) == true && isFiring) {
 				//create and fire a bird
 				GameObject birdGameObject = Instantiate(birdPrefab, transform.position, transform.rotation);
-				birdGameObject.transform.position += transform.forward * 3f;
+				birdGameObject.transform.position -= transform.forward * 1f;
+				birdGameObject.transform.position += transform.up * 1f;
 				
 				float firingForceMultiplier;
 				print("Current Time: " + Time.time.ToString());
@@ -56,6 +57,7 @@ public class LauncherScript : MonoBehaviour
 				}
 				
 				Vector3 firingVector = transform.position - cam.transform.position;
+				firingVector += transform.up * 10f;
 				
 				fireTiming = Time.time;
 				firepowerTrackerAnimator.SetBool("isFiring", false);
