@@ -16,9 +16,6 @@ public class textScript : MonoBehaviour
 	public Image displayImage;
 	public GameObject buttonPanel;
 	
-	//private string story;
-	//private List<string[]> storyList = new List<string[]>();//list of string arrays - each array is [title, next title it should find. text]
-	
 	private StoryCompiler storyCompiler = new StoryCompiler(); //custom created StoryCompiler class
 	
 	private bool awaitingChoice = false;
